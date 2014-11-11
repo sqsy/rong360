@@ -39,7 +39,7 @@ class ListController < UITableViewController
     self.navigationController.pushViewController(@controller, animated:true)
 
     detail = @data[indexPath.row]
-    @controller.binding_with_data(detail)
+    @controller.show_detail(detail)
   end
 
 end

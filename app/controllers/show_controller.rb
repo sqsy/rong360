@@ -1,21 +1,20 @@
 class ShowController < UIViewController
+  BASE_URL = "http://bbs.rong360.com/forum.php?forumlist=1"
+
+  def loadView
+    self.view = UIWebView.alloc.init
+  end
+
+  def viewWillAppear(animated)
+    navigationController.setNavigationBarHidden(false, animated:true)
+  end
+
   def viewDidLoad
     super
 
-    self.title = "Detail"
-    self.view.backgroundColor = UIColor.whiteColor
-
-  end
-
-  def binding_with_data data
-    @data = data
-
-    label = UILabel.alloc.initWithFrame(CGRectZero)
-    label.text = data
-    label.sizeToFit
-    label.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2)
-
-    self.view.addSubview label
+    navigationItem.title = "Rong360"
+    request = NSURLRequest.requestWithURL(NSURL.URLWithString(BASE_URL))
+    view.loadRequest(request)
   end
 
 end
