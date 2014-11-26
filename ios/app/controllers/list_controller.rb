@@ -1,6 +1,15 @@
 class ListController < UITableViewController
+  def viewWillAppear(animated)
+    super
+    p "viewWillAppear"
+    # used for reload data
+    self.tableView.reloadData if self.respond_to?("tableView")
+    self
+  end
+
   def viewDidLoad
     super
+    p "viewDidLoad"
 
     self.navigationItem.title = "Rong360"
 
@@ -35,11 +44,10 @@ class ListController < UITableViewController
 
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
     self.view.deselectRowAtIndexPath(indexPath, animated:false)
-    @controller = ShowController.alloc.init
+    @controller = ShowController.alloc.initWithNibName(nil, bundle: nil) # .initWithTitle(@data[indexPath.row])
     self.navigationController.pushViewController(@controller, animated:true)
 
-    detail = @data[indexPath.row]
-    @controller.show_detail(detail)
+    @controller.setData(@data[indexPath.row])
   end
 
 end
