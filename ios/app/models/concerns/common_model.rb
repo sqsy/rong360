@@ -4,10 +4,10 @@ module CommonModel
       attr_accessor attr
     end
 
-    def initialize(props = {})
+    define_method :initialize, do |props|
       props.each do |k, v|
-        if attrs.member? key.to_sym
-          self.send("#{key}=", value)
+        if attrs.member? k.to_s
+          self.send("#{k}=", v)
         end
       end
     end

@@ -1,13 +1,14 @@
 class ShowController < UITableViewController
 
-  def setData(data)
-    @data = data
-    self.navigationItem.title = @data[0..10]
+  def initWithPost(post)
+    @post = post
+    self.initWithNibName(nil, bundle: nil)
+    self
   end
 
   def viewDidLoad
     super
-
+    self.navigationItem.title = @post.title
   end
 
   def tableView(tableView, cellForRowAtIndexPath: indexPath)
@@ -17,18 +18,18 @@ class ShowController < UITableViewController
       UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:@reuseIdentifier)
     end
 
-    if indexPath = 0
-      cell.textLabel.text = @data
+    if indexPath.row == 0
+      cell.textLabel.text = @post.content
       cell.textLabel.numberOfLines = 0
     else
-      cell.textLabel.text = "评论#{indexPath + 1}"
+      cell.textLabel.text = "评论#{indexPath.row + 1}"
     end
 
     cell
   end
 
   def tableView(tableView, numberOfRowsInSection: section)
-    1
+    2
   end
 
 end

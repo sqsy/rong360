@@ -2,7 +2,6 @@ class ListController < UITableViewController
   def viewWillAppear(animated)
     super
     p "viewWillAppear"
-    # used for reload data
     self.tableView.reloadData if self.respond_to?("tableView")
     self
   end
@@ -11,16 +10,12 @@ class ListController < UITableViewController
     super
     p "viewDidLoad"
 
+    @posts = []
     self.navigationItem.title = "Rong360"
-
-    @data = [
-      "很长的一段话， 真的很长，要占满两行，起码。很长的一段话， 真的很长，要占满两行，起码。很长的一段话， 真的很长，要占满两行，起码。很长的一段话， 真的很长，要占满两行，起码。",
-      "很长的一段话， 真的很长，要占满两行，起码。很长的一段话， 真的很长，要占满两行，起码。很长的一段话， 真的很长，要占满两行，起码。很长的一段话， 真的很长，要占满两行，起码。1",
-      "很长的一段话， 真的很长，要占满两行，起码。很长的一段话， 真的很长，要占满两行，起码。很长的一段话， 真的很长，要占满两行，起码。很长的一段话， 真的很长，要占满两行，起码。2",
-      "很长的一段话， 真的很长，要占满两行，起码。很长的一段话， 真的很长，要占满两行，起码。很长的一段话， 真的很长，要占满两行，起码。很长的一段话， 真的很长，要占满两行，起码。3",
-      "很长的一段话， 真的很长，要占满两行，起码。很长的一段话， 真的很长，要占满两行，起码。很长的一段话， 真的很长，要占满两行，起码。很长的一段话， 真的很长，要占满两行，起码。4",
-      "很长的一段话， 真的很长，要占满两行，起码。很长的一段话， 真的很长，要占满两行，起码。很长的一段话， 真的很长，要占满两行，起码。很长的一段话， 真的很长，要占满两行，起码。5",
-    ]
+    Post.list do |posts|
+      @posts = posts
+      self.tableView.reloadData
+    end
   end
 
   def tableView(tableView, cellForRowAtIndexPath: indexPath)
@@ -32,22 +27,20 @@ class ListController < UITableViewController
       cell
     end
 
-    cell.textLabel.text = @data[indexPath.row]
-    cell.textLabel.numberOfLines = 3
+    cell.textLabel.text = @posts[indexPath.row].title
 
     cell
   end
 
   def tableView(tableView, numberOfRowsInSection: section)
-    @data.count
+    @posts.count
   end
 
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
     self.view.deselectRowAtIndexPath(indexPath, animated:false)
-    @controller = ShowController.alloc.initWithNibName(nil, bundle: nil) # .initWithTitle(@data[indexPath.row])
-    self.navigationController.pushViewController(@controller, animated:true)
 
-    @controller.setData(@data[indexPath.row])
+    @controller = ShowController.alloc.initWithPost(@posts[indexPath.row])
+    self.navigationController.pushViewController(@controller, animated:true)
   end
 
 end
