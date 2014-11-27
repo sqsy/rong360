@@ -1,4 +1,6 @@
 class ShowController < UITableViewController
+  attr_reader :reuseIdentifier
+  attr_reader :offscreenCells
 
   def initWithPost(post)
     @post = post
@@ -9,6 +11,8 @@ class ShowController < UITableViewController
   def viewDidLoad
     super
     self.navigationItem.title = @post.title
+    @reuseIdentifier = "DETAIL_CELL_IDENTIFIER"
+    @offscreenCells = {}
 
     @comments = []
     @post.seek do |comments|
@@ -18,14 +22,16 @@ class ShowController < UITableViewController
   end
 
   def tableView(tableView, cellForRowAtIndexPath: indexPath)
-    @reuseIdentifier ||= "DETAIL_CELL_IDENTIFIER"
-
     cell = tableView.dequeueReusableCellWithIdentifier(@reuseIdentifier) || begin
       UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:@reuseIdentifier)
     end
 
-    cell.textLabel.text = @comments[indexPath.row].message
-    cell.textLabel.numberOfLines = 0
+    webView = UIWebView.alloc.initWithFrame(CGRectZero)
+    webView.frame = CGRect.new(cell.frame.origin, [cell.frame.size.width, 300])
+    webView.loadHTMLString @comments[indexPath.row].message, baseURL: nil
+    cell.sizeToFit
+
+    cell.addSubview(webView)
 
     cell
   end
@@ -34,4 +40,24 @@ class ShowController < UITableViewController
     @comments.count
   end
 
+  def tableView(tableView, heightForRowAtIndexPath: indexPath)
+    300
+    #unless cell = @offscreenCells[@reuseIdentifier]
+      #cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:@reuseIdentifier)
+      #@offscreenCells[@reuseIdentifier] = cell
+    #end
+
+    #webView = UIWebView.alloc.initWithFrame(CGRectZero)
+    #webView.loadHTMLString @comments[indexPath.row].message, baseURL: nil
+
+    #cell.addSubview(webView)
+    #cell.bounds = CGRectMake(0, 0, CGRectGetWidth(tableView.bounds), CGRectGetHeight(cell.bounds))
+    #cell.setNeedsLayout
+    #cell.layoutIfNeeded
+
+    #height = cell.contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize).height
+
+    #return height + 1
+  end
 end
+
