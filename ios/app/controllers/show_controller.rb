@@ -9,6 +9,12 @@ class ShowController < UITableViewController
   def viewDidLoad
     super
     self.navigationItem.title = @post.title
+
+    @comments = []
+    @post.seek do |comments|
+      @comments = comments
+      self.tableView.reloadData
+    end
   end
 
   def tableView(tableView, cellForRowAtIndexPath: indexPath)
@@ -18,18 +24,14 @@ class ShowController < UITableViewController
       UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:@reuseIdentifier)
     end
 
-    if indexPath.row == 0
-      cell.textLabel.text = @post.content
-      cell.textLabel.numberOfLines = 0
-    else
-      cell.textLabel.text = "评论#{indexPath.row + 1}"
-    end
+    cell.textLabel.text = @comments[indexPath.row].message
+    cell.textLabel.numberOfLines = 0
 
     cell
   end
 
   def tableView(tableView, numberOfRowsInSection: section)
-    2
+    @comments.count
   end
 
 end
