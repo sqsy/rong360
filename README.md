@@ -12,3 +12,7 @@ http://bbs.rong360.com/api/mobile/index.php?module=forumdisplay&version=1&fid=50
 2. 获取某帖子详情
 
 http://bbs.rong360.com/api/mobile/index.php?module=viewthread&version=1&tid=5208&page=1&ppp=16&submodule=checkpost&mobile=no
+
+3. 获取全部板块
+
+http://bbs.rong360.com/api/mobile/index.php?module=forumindex&version=1&mobile=no

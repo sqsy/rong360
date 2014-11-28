@@ -1,17 +1,22 @@
 class ListController < UITableViewController
   def viewWillAppear(animated)
     super
-    p "viewWillAppear"
     self.tableView.reloadData if self.respond_to?("tableView")
     self
   end
 
   def viewDidLoad
     super
-    p "viewDidLoad"
 
     @posts = []
     self.navigationItem.title = "Rong360"
+    path = File.join(File.dirname(__FILE__), "../../resources/arrowright_20x20.png")
+    image = UIImage.imageWithContentsOfFile(path)
+    rightButton = UIBarButtonItem.alloc.initWithImage(image,
+                                                      style: UIBarButtonItemStyleBordered,
+                                                      target: self,
+                                                      action: "pop_module_list")
+    self.navigationItem.rightBarButtonItem = rightButton
     Post.list do |posts|
       @posts = posts
       self.tableView.reloadData
@@ -41,6 +46,15 @@ class ListController < UITableViewController
 
     @controller = ShowController.alloc.initWithPost(@posts[indexPath.row])
     self.navigationController.pushViewController(@controller, animated:true)
+  end
+
+  def pop_module_list
+    p "pop module list"
+    RongModule.list do |modules|
+      controller = ModulesController.alloc.initWithModules(modules, modules.first)
+      self.navigationController.pushViewController(controller, animated: false)
+      p modules
+    end
   end
 
 end

@@ -30,17 +30,17 @@ describe "Post" do
   end
 
   it "should fetch forumlist" do
-    #stub_request(:get, "http://bbs.rong360.com/api/mobile/index.php?module=forumdisplay&version=1&fid=50&page=1&tpp=20&submodule=checkpost&orderby=lastpost&mobile=no").
-      #to_return(json: { "Variables" => { "forum_threadlist" => [{ "tid" => 1, "subject" => "hello", "authorid" => 100, "post_at" => Time.now.to_i }]}})
+    stub_request(:get, "http://bbs.rong360.com/api/mobile/index.php?module=forumdisplay&version=1&fid=50&page=1&tpp=20&submodule=checkpost&orderby=lastpost&mobile=no").
+      to_return(json: { "Variables" => { "forum_threadlist" => [{ "tid" => 1, "subject" => "hello", "authorid" => 100, "post_at" => "1321223311" }]}})
 
-    #Post.list do |posts|
-      #@result = posts
-      #resume
-    #end
+    Post.list do |posts|
+      @result = posts
+      resume
+    end
 
-    #wait_max 1.0 do
-      #@result.size.should == 1
-    #end
+    wait_max 1.0 do
+      @result.size.should == 1
+    end
   end
 
   it "sample request" do
@@ -58,13 +58,16 @@ describe "Post" do
   end
 
   it "should seek comments" do
+    stub_request(:get, "http://bbs.rong360.com/api/mobile/index.php?module=viewthread&version=1&tid=#{@post.id}&page=1&ppp=16&submodule=checkpost&mobile=no").
+      to_return(json: { "Variables" => { "postlist" => [ { "pid" => 1, "message" => "交流", "pid" => 100, "authorid" => 110, "dbdateline" => "123212345" }] }})
+
     @post.seek do |comments|
       @result = comments
       resume
     end
 
-    wait_max 10.0 do
-      @result.size.should >= 1
+    wait_max 1.0 do
+      @result.size.should == 1
       @result.last.is_a?(Comment).should == true
     end
   end
