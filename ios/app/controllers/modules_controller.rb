@@ -1,10 +1,4 @@
 class ModulesController < UITableViewController
-  def initWithModules(modules, current)
-    @modules = modules
-    self.initWithNibName(nil, bundle: nil)
-    self
-  end
-
   def viewDidLoad
     super
     self.navigationItem.title = "Rong360"

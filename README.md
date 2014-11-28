@@ -16,3 +16,7 @@ http://bbs.rong360.com/api/mobile/index.php?module=viewthread&version=1&tid=5208
 3. 获取全部板块
 
 http://bbs.rong360.com/api/mobile/index.php?module=forumindex&version=1&mobile=no
+
+4. webview 版 帖子详情页
+
+http://bbs.rong360.com/forum.php?mod=viewthread&tid=6856&extra=page%3D1&mobile=2
