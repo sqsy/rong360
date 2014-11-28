@@ -13,6 +13,7 @@ class ShowController < UITableViewController
     self.navigationItem.title = @post.title
     @reuseIdentifier = "DETAIL_CELL_IDENTIFIER"
     @offscreenCells = {}
+    #self.tableView.estimatedRowHeight = 100
 
     @comments = []
     @post.seek do |comments|
@@ -27,11 +28,12 @@ class ShowController < UITableViewController
     end
 
     webView = UIWebView.alloc.initWithFrame(CGRectZero)
-    webView.frame = CGRect.new(cell.frame.origin, [cell.frame.size.width, 300])
+    webView.delegate = self
+    webView.frame = cell.frame #CGRect.new(cell.frame.origin, [cell.frame.size.width, 300])
     webView.loadHTMLString @comments[indexPath.row].message, baseURL: nil
-    cell.sizeToFit
 
-    cell.addSubview(webView)
+    cell.contentView.addSubview(webView)
+    cell.sizeToFit
 
     cell
   end
@@ -41,23 +43,11 @@ class ShowController < UITableViewController
   end
 
   def tableView(tableView, heightForRowAtIndexPath: indexPath)
-    300
-    #unless cell = @offscreenCells[@reuseIdentifier]
-      #cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:@reuseIdentifier)
-      #@offscreenCells[@reuseIdentifier] = cell
-    #end
+    100
+  end
 
-    #webView = UIWebView.alloc.initWithFrame(CGRectZero)
-    #webView.loadHTMLString @comments[indexPath.row].message, baseURL: nil
-
-    #cell.addSubview(webView)
-    #cell.bounds = CGRectMake(0, 0, CGRectGetWidth(tableView.bounds), CGRectGetHeight(cell.bounds))
-    #cell.setNeedsLayout
-    #cell.layoutIfNeeded
-
-    #height = cell.contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize).height
-
-    #return height + 1
+  def webViewDidFinishLoad(webView)
+    webView.sizeToFit
   end
 end
 
