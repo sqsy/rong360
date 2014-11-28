@@ -3,7 +3,7 @@ class AppDelegate
     @window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
     @window.makeKeyAndVisible
 
-    @controller = ListController.alloc.initWithNibName(nil, bundle: nil)
+    @controller = ModulesController.alloc.initWithNibName(nil, bundle: nil)
     @navigation_controller = UINavigationController.alloc.initWithRootViewController(@controller)
 
     @window.rootViewController = @navigation_controller
