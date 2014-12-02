@@ -4,7 +4,7 @@ class Post
   attrs_with %w{ id user_id title content post_at }
   attr_reader :comments
 
-  BASE_URL = "http://bbs.rong360.com/api/mobile/index.php"
+  BASE_URL = "http://www.1bd1.com/api/mobile/index.php" #http://bbs.rong360.com/api/mobile/index.php"
 
   def self.list(opts = {}, &block)
     url = "#{BASE_URL}?module=forumdisplay&version=1&fid=#{opts[:module_id]||50}&page=#{opts[:page]||1}&tpp=20&submodule=checkpost&orderby=lastpost&mobile=no"

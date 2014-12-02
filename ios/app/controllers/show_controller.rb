@@ -1,5 +1,5 @@
 class ShowController < UIViewController
-  BASE_URL = "http://bbs.rong360.com/forum.php"
+  BASE_URL = "http://www.1bd1.com/forum.php"
 
   def loadView
    self.view = UIWebView.alloc.init

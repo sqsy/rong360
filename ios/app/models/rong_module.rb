@@ -4,7 +4,7 @@ class RongModule
   attrs_with %w{ id name }
 
   def self.list(&block)
-    url = "http://bbs.rong360.com/api/mobile/index.php?module=forumindex&version=1&mobile=no"
+    url = "#{Post::BASE_URL}?module=forumindex&version=1&mobile=no"
     AFMotion::JSON.get(url) do |result|
       modulelist = result.object["Variables"]["forumlist"]
       list = modulelist.map do |m|
