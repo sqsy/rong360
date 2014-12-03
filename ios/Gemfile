@@ -4,5 +4,9 @@ gem 'rake'
 gem 'afmotion'
 gem 'bubble-wrap'
 gem 'motion-cocoapods'
+gem 'sugarcube', require: [
+  'sugarcube-uikit',
+  'sugarcube-attributedstring'
+]
 
 gem "webstub" # used for stub web
